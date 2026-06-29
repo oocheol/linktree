@@ -23,11 +23,16 @@
   -webkit-font-smoothing: antialiased;
 }
 
+/* Lock scrolling completely for iOS / Mobile Viewports */
 html, body {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   height: 100dvh;
-  overflow: hidden; /* Disable page scroll completely */
+  overflow: hidden;
+  touch-action: none; /* Disables double-tap zoom & panning entirely on body */
 }
 
 body {
@@ -37,7 +42,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
   padding: 1rem;
 }
 
@@ -82,7 +86,7 @@ body {
 .container {
   width: 100%;
   max-width: 500px;
-  max-height: calc(100dvh - 2rem); /* Limit height to viewport minus margins */
+  max-height: calc(100dvh - 2rem);
   background: rgba(13, 13, 20, 0.6);
   border: 1px solid var(--border-color);
   backdrop-filter: blur(24px);
@@ -95,12 +99,13 @@ body {
   flex-direction: column;
   align-items: center;
   animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow-y: auto; /* Allow internal scroll only if absolutely necessary on tiny screens */
-  scrollbar-width: none; /* Hide scrollbars */
+  overflow-y: auto; /* Fallback internal scroll if container height exceeded */
+  scrollbar-width: none;
+  touch-action: pan-y; /* Allow internal scrolling if content overflows */
 }
 
 .container::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for Chrome/Safari */
+  display: none;
 }
 
 /* Profile Section Styling */
@@ -403,5 +408,65 @@ body {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+}
+
+/* Extra Short Height Screen Optimization (e.g. In-App Browsers, iPhone SE) */
+@media (max-height: 720px) {
+  .container {
+    padding: 1.15rem 1.15rem 0.85rem;
+    border-radius: 20px;
+  }
+  
+  .avatar-wrapper {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .profile {
+    margin-bottom: 0.85rem;
+  }
+  
+  .name {
+    font-size: 1.2rem;
+    margin-bottom: 0.2rem;
+  }
+  
+  .bio {
+    font-size: 0.75rem;
+  }
+  
+  .links-section {
+    gap: 0.6rem;
+    margin-bottom: 0.85rem;
+  }
+  
+  .link-card {
+    padding: 0.65rem 0.75rem;
+    border-radius: 14px;
+  }
+  
+  .card-icon-wrapper {
+    width: 32px;
+    height: 32px;
+    margin-right: 0.6rem;
+  }
+  
+  .card-icon {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .card-title {
+    font-size: 0.85rem;
+  }
+  
+  .card-desc {
+    font-size: 0.68rem;
+  }
+  
+  .copyright {
+    font-size: 0.65rem;
   }
 }
